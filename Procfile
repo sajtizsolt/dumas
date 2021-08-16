@@ -1,1 +1,1 @@
-web: python src/main.py "/path/to/config"
+web: python src/main.py "/app/config"
