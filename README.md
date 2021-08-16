@@ -20,3 +20,19 @@ The bot needs a configuration file, which contains important data. A configurati
 ```
 
 After you created the file, pass the absolute path as a command line argument.
+
+## Heroku
+
+To completely stop the application use the following commands:
+
+```bash
+$ heroku maintenance:on --app <app-name>
+$ heroku ps:scale web=0 --app <app-name>
+```
+
+To turn on later use the following commands:
+
+```bash
+$ heroku maintenance:off --app <app-name>
+$ heroku ps:scale web=1  --app <app-name>
+```
