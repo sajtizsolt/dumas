@@ -1,0 +1,9 @@
+ {
+  "name": "Dumas",
+  "description": "Fantastic Discord bot.",
+  "keywords": [
+    "discord",
+    "dumas"
+  ],
+  "repository": "https://github.com/sajtizsolt/dumas"
+}
