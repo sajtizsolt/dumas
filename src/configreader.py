@@ -1,27 +1,27 @@
-from dataclasses import dataclass
-import json
+from config import Config
 
-@dataclass
-class Config:
-  bot_id: int
-  token: int
-  source_channels: list[int]
-  target_channel: int
-  message_limit: int
-  message_frequency: int
-  min_message_length: int
-  first_message: str
+import json
 
 class ConfigReader:
 
-  def __init__(self, filepath):
-    self.filepath = filepath
+  def __init__(self, path):
+    self.path = path
 
   def read(self):
-    configFile = open(self.filepath)
-    data = json.load(configFile)
-    configFile.close()
-    self.config = Config(data['botId'], data['token'], data['sourceChannels'], data['targetChannel'], data['messageLimit'], data['messageFrequency'], data['minimumMessageLength'], data['firstMessage'])
+    config_file = open(self.path)
+    data = json.load(config_file)
+    config_file.close()
+    self.config = Config(
+      bot_app = data['bot']['app'],
+      bot_token = data['bot']['token'],
+      channel_sources = data['channel']['sources'],
+      channel_target = data['channel']['target'],
+      message_farewell = data['message']['farewell'],
+      message_frequency = data['message']['frequency'],
+      message_length = data['message']['length'],
+      message_limit = data['message']['limit'],
+      message_welcome = data['message']['welcome']
+    )
 
   def get_config(self):
     return self.config
