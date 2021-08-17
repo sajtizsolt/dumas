@@ -87,6 +87,8 @@ $ echo "{\"bot\":{...}}" > config
 $ exit
 ```
 
+If you will run the program in `Heroku`, it will search for the configuration file at `/app/config`, so be careful where you put your file.
+
 ### Useful commands
 
 To completely stop the application use the following commands:

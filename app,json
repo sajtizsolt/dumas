@@ -1,9 +1,10 @@
  {
-  "name": "Dumas",
-  "description": "Fantastic Discord bot.",
+  "name": "dumas",
+  "description": "A Discord bot written in Python to bring back memories and create funny conversations for you and your friends.",
   "keywords": [
     "discord",
-    "dumas"
+    "dumas",
+    "rewind"
   ],
   "repository": "https://github.com/sajtizsolt/dumas"
 }
