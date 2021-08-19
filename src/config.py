@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
+
   bot_app: int
   bot_token: str
   channel_sources: list[int]

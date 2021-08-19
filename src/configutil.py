@@ -2,16 +2,14 @@ from config import Config
 
 import json
 
-class ConfigReader:
+class ConfigUtil:
 
-  def __init__(self, path):
-    self.path = path
-
-  def read(self):
-    config_file = open(self.path)
+  @staticmethod
+  def read_config(path):
+    config_file = open(path)
     data = json.load(config_file)
     config_file.close()
-    self.config = Config(
+    return Config(
       bot_app = data['bot']['app'],
       bot_token = data['bot']['token'],
       channel_sources = data['channel']['sources'],
@@ -22,6 +20,3 @@ class ConfigReader:
       message_limit = data['message']['limit'],
       message_welcome = data['message']['welcome']
     )
-
-  def get_config(self):
-    return self.config
