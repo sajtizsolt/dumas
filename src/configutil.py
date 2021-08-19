@@ -4,6 +4,40 @@ import json
 
 class ConfigUtil:
 
+  CONFIG_JSON = """
+  {{
+    "bot": {{
+      "app": {},
+      "token": "{}"
+    }},
+    "channel": {{
+      "sources": {},
+      "target": {}
+    }},
+    "message": {{
+      "farewell": "{}",
+      "frequency": {},
+      "length": {},
+      "limit": {},
+      "welcome": "{}"
+    }}
+  }}
+  """
+
+  @staticmethod
+  def get_config_json(config):
+    return ConfigUtil.CONFIG_JSON.format(
+      config.bot_app,
+      "Secret token!",
+      config.channel_sources,
+      config.channel_target,
+      config.message_farewell,
+      config.message_frequency,
+      config.message_length,
+      config.message_limit,
+      config.message_welcome
+    )
+
   @staticmethod
   def read_config(path):
     config_file = open(path)
@@ -20,3 +54,9 @@ class ConfigUtil:
       message_limit = data['message']['limit'],
       message_welcome = data['message']['welcome']
     )
+
+  @staticmethod
+  def write_config(path, config):
+    config_file = open(path, 'w')
+    config_file.write(ConfigUtil.get_config_json(config))
+    config_file.close()
