@@ -1,1 +1,1 @@
-web: python src/main.py "/app/config.json"
+worker: python src/main.py "/app/config.json"
