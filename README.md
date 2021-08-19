@@ -12,9 +12,10 @@ This program will let a Discord bot read your old messages and randomly send the
 
 Since the bot is written in Python, you only need to install a Python environment some dependencies with `pip`, using the following command:
 
-```bash
+```
 $ pip install discord.py
 ```
+
 ### Configuration
 
 The program needs a configuration file, which contains important data about your server and bot. The configuration file should look like this:
@@ -57,7 +58,7 @@ The program needs a configuration file, which contains important data about your
 
 After you installed the dependencies and created a configuration file, you can simply run the program with the following command:
 
-```bash
+```
 $ python main.py <absolute-path-to-configuration-file>
 ```
 
@@ -80,7 +81,7 @@ After you deployed `dumas`, the program will search for the specified configurat
 
 With the help of the following commands, you will be able to create a configuration file in minutes:
 
-```bash
+```
 $ heroku run bash --app <app-name>
 $ touch config
 $ echo "{\"bot\":{...}}" > config
@@ -93,20 +94,20 @@ If you will run the program in `Heroku`, it will search for the configuration fi
 
 To completely stop the application use the following commands:
 
-```bash
+```
 $ heroku maintenance:on --app <app-name>
 $ heroku ps:scale web=0 --app <app-name>
 ```
 
 To turn on later use the following commands:
 
-```bash
+```
 $ heroku maintenance:off --app <app-name>
 $ heroku ps:scale web=1  --app <app-name>
 ```
 
 To check if dynos ar running use the following commands:
 
-```bash
+```
 $ heroku ps --app <app-name>
 ```
