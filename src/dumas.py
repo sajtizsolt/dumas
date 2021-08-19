@@ -31,6 +31,12 @@ class Dumas(Client):
         if message.is_relevant(self.config):
           self.messages.append(message)
     await self.target_channel.send(self.config.message_welcome)
+    await self.keep_alive()
+
+  async def keep_alive(self):
+    while True:
+      self.target_channel.history(limit=1)
+      await asyncio.sleep(900)
 
   async def on_message(self, message):
     if message.content.startswith('&help'):
