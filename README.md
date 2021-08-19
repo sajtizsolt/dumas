@@ -66,12 +66,13 @@ $ python main.py <absolute-path-to-configuration-file>
 
 As every good bot, `dumas` also has commands. Just type one of these into a channel, which has been specified as source.
 
-| Command   | Description                                                                                |
-| --------- | ------------------------------------------------------------------------------------------ |
-| `&help`   | `dumas` will show how to use it                                                            |
-| `&start`  | `dumas` will send a message from time to time (based on the value of `message.frequency`)  |
-| `&stop`   | `dumas` will stop sending messages                                                         |
-| `&random` | `dumas` will send a random message immediately                                             |
+| Command       | Description                                                                               |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| `&help`       | `dumas` will show how to use it                                                           |
+| `&start`      | `dumas` will send a message from time to time (based on the value of `message.frequency`) |
+| `&stop`       | `dumas` will stop sending messages                                                        |
+| `&random`     | `dumas` will send a random message immediately                                            |
+| `&get-config` | `dumas` will show the active configuration                                                |
 
 ## Deploying to Heroku
 
