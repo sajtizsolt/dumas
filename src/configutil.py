@@ -2,31 +2,30 @@ from config import Config
 
 import json
 
-class ConfigUtil:
-
-  CONFIG_JSON = """
-  {{
-    "bot": {{
-      "app": {},
-      "token": "{}"
-    }},
-    "channel": {{
-      "sources": {},
-      "target": {}
-    }},
-    "message": {{
-      "farewell": "{}",
-      "frequency": {},
-      "length": {},
-      "limit": {},
-      "welcome": "{}"
-    }}
+CONFIG_JSON = """
+{{
+  "bot": {{
+    "app": {},
+    "token": "{}"
+  }},
+  "channel": {{
+    "sources": {},
+    "target": {}
+  }},
+  "message": {{
+    "farewell": "{}",
+    "frequency": {},
+    "length": {},
+    "limit": {},
+    "welcome": "{}"
   }}
-  """
+}}"""
+
+class ConfigUtil:
 
   @staticmethod
   def get_config_json(config):
-    return ConfigUtil.CONFIG_JSON.format(
+    return CONFIG_JSON.format(
       config.bot_app,
       "Secret token!",
       config.channel_sources,

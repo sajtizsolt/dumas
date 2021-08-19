@@ -69,4 +69,4 @@ class Dumas(Client):
     await self.target_channel.send(self.messages[index].content)
 
   async def get_config(self):
-    await self.target_channel.send(ConfigUtil.get_config_json(self.config))
+    await self.target_channel.send('```json' + ConfigUtil.get_config_json(self.config) + '```')
