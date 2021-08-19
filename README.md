@@ -84,11 +84,11 @@ With the help of the following commands, you will be able to create a configurat
 ```
 $ heroku run bash --app <app-name>
 $ touch config
-$ echo "{\"bot\":{...}}" > config
+$ echo "{\"bot\":{...}}" > /app/config.json
 $ exit
 ```
 
-If you will run the program in `Heroku`, it will search for the configuration file at `/app/config`, so be careful where you put your file.
+If you will run the program in `Heroku`, it will search for the configuration file at `/app/config.json`, so be careful where you put your file.
 
 ### Useful commands
 
