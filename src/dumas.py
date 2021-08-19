@@ -1,6 +1,7 @@
 from discord import Client
 from discord.ext import tasks
 
+from configutil import ConfigUtil
 from message import Message
 
 import asyncio
@@ -8,10 +9,11 @@ import random
 
 HELP='''```
 Usage:
-  &help   - show this help page
-  &start  - start sending messages continously
-  &stop   - stop sending messages continously
-  &random - send a random message once
+  &help       - show this help page
+  &start      - start sending messages continously
+  &stop       - stop sending messages continously
+  &random     - send a random message once
+  &get-config - get active configuration
 ```'''
 
 class Dumas(Client):
@@ -48,6 +50,8 @@ class Dumas(Client):
       await self.stop_sending_messages()
     elif message.content.startswith('&random'):
       await self.send_random_message()
+    elif message.content.startswith('&get-config'):
+      await self.get_config()
 
   async def show_help(self):
     await self.target_channel.send(HELP)
@@ -63,3 +67,6 @@ class Dumas(Client):
   async def send_random_message(self):
     index = random.randint(0, len(self.messages) - 1)
     await self.target_channel.send(self.messages[index].content)
+
+  async def get_config(self):
+    await self.target_channel.send('```json' + ConfigUtil.get_config_json(self.config) + '```')
