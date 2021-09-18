@@ -3,9 +3,11 @@ from discord.ext import tasks
 
 from configutil import ConfigUtil
 from message import Message
+from timeutil import TimeUtil
 
-import asyncio
-import random
+import asyncio, logging, random, time
+
+logger = logging.getLogger(__name__)
 
 HELP='''```
 Usage:
@@ -25,22 +27,13 @@ class Dumas(Client):
     self.messages = []
 
   async def on_ready(self):
+    logger.info('Bot is ready!')
     self.target_channel = self.get_channel(self.config.channel_target)
-    for channel_id in self.config.channel_sources:
-      channel = self.get_channel(channel_id)
-      async for msg in channel.history(limit=self.config.message_limit):
-        message = Message(author_id = msg.author.id, content = msg.content)
-        if message.is_relevant(self.config):
-          self.messages.append(message)
+    await self.read_history()
     await self.target_channel.send(self.config.message_welcome)
-    await self.keep_alive()
-
-  async def keep_alive(self):
-    while True:
-      self.target_channel.history(limit=1)
-      await asyncio.sleep(900)
 
   async def on_message(self, message):
+    logger.info('Got a message!')
     if message.content.startswith('&help'):
       await self.show_help()
     elif message.content.startswith('&start'):
@@ -54,19 +47,36 @@ class Dumas(Client):
       await self.get_config()
 
   async def show_help(self):
+    logger.info('Showing help!')
     await self.target_channel.send(HELP)
 
   async def send_messages_continously(self):
+    logger.info('Starting to send messages...')
     while self.active:
       await self.send_random_message()
       await asyncio.sleep(self.config.message_frequency)
 
   async def stop_sending_messages(self):
+    logger.info('Stopping messages!')
     self.active = False
 
   async def send_random_message(self):
+    logger.info('Sending a random message...')
     index = random.randint(0, len(self.messages) - 1)
     await self.target_channel.send(self.messages[index].content)
 
   async def get_config(self):
+    logger.info('Showing config!')
     await self.target_channel.send('```json' + ConfigUtil.get_config_json(self.config) + '```')
+
+  async def read_history(self):
+    logger.info('Starting to read history...')
+    start_epochs = time.time()
+    for channel_id in self.config.channel_sources:
+      channel = self.get_channel(channel_id)
+      async for msg in channel.history(limit=self.config.message_limit):
+        message = Message(author_id = msg.author.id, content = msg.content)
+        if message.is_relevant(self.config):
+          self.messages.append(message)
+    end_epochs = time.time()
+    logger.info('History reading have lasted for ' + str(TimeUtil.get_time_between_epochs(start_epochs, end_epochs)) + ' seconds.')

@@ -14,7 +14,7 @@ class Message:
     for cmd in ['-p', '-skip', '-loop', '-q', '-clear', '-remove', '-dc']:
       if self.content.startswith(cmd):
         return False
-    for cmd in ['&help', '&start', '&stop', '&random']:
+    for cmd in ['&help', '&start', '&stop', '&random', '&get-config']:
       if self.content.startswith(cmd):
         return False
     return True
