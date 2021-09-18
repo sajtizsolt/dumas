@@ -28,16 +28,14 @@ class Dumas(Client):
     self.messages = []
 
   async def on_ready(self):
-    logger.info('Bot is ready!')
-    self.target_channel = self.get_channel(self.config.channel_target)
+    logger.info('The bot is ready!')
     await self.read_history()
+    self.target_channel = self.get_channel(self.config.channel_target)
     await self.target_channel.send(self.config.message_welcome)
 
   async def on_message(self, message):
-    logger.info('Got a message!')
+    logger.info('Someone sent a message...')
     author_id = await self.get_author_id_from_message_content_if_present(message.content)
-    print(author_id)
-    print(self.config.bot_app)
     if author_id == str(self.config.bot_app):
       await self.target_channel.send(self.config.message_warning)
     if message.content.startswith('&help'):
@@ -63,11 +61,11 @@ class Dumas(Client):
       await asyncio.sleep(self.config.message_frequency)
 
   async def stop_sending_messages(self):
-    logger.info('Stopping messages!')
+    logger.info('Stopping to send messages!')
     self.active = False
 
   async def send_random_message(self, author_id = None):
-    logger.info('Sending a random message...')
+    logger.info('Sending a random message!')
     index = random.randint(0, len(self.messages) - 1)
     if author_id != None:
       while self.messages[index].author_id != author_id:
