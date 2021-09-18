@@ -11,4 +11,5 @@ class Config:
   message_frequency: int
   message_length: int
   message_limit: int
+  message_warning: str
   message_welcome: str

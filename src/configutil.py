@@ -17,6 +17,7 @@ CONFIG_JSON = """
     "frequency": {},
     "length": {},
     "limit": {},
+    "warning": "{}",
     "welcome": "{}"
   }}
 }}"""
@@ -34,6 +35,7 @@ class ConfigUtil:
       config.message_frequency,
       config.message_length,
       config.message_limit,
+      config.message_warning,
       config.message_welcome
     )
 
@@ -51,6 +53,7 @@ class ConfigUtil:
       message_frequency = data['message']['frequency'],
       message_length = data['message']['length'],
       message_limit = data['message']['limit'],
+      message_warning = data['message']['warning'],
       message_welcome = data['message']['welcome']
     )
 
