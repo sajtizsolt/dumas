@@ -38,7 +38,7 @@ class Dumas(Client):
     author_id = await self.get_author_id_from_message_content_if_present(message.content)
     if author_id == str(self.config.bot_app):
       await self.target_channel.send(self.config.message_warning)
-    if message.content.startswith('&help'):
+    elif message.content.startswith('&help'):
       await self.show_help()
     elif message.content.startswith('&start'):
       self.active = True
@@ -68,8 +68,8 @@ class Dumas(Client):
     logger.info('Sending a random message!')
     index = random.randint(0, len(self.messages) - 1)
     if author_id != None:
-      while self.messages[index].author_id != author_id:
-        index = random.randint(0, len(self.messages) - 1)
+      filtered_messages = filter (lambda m : m.author_id == author_id, self.messages)
+      index = random.randint(0, len(filtered_messages) - 1)
     await self.target_channel.send(self.messages[index].content)
 
   async def get_config(self):
