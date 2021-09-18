@@ -37,7 +37,7 @@ The program needs a configuration file, which contains important data about your
     "frequency": 5,
     "length": 10,
     "limit": 1000,
-    "warning": "Oh, I see what you did there!"
+    "warning": "Oh, I see what you did there!",
     "welcome": "It's a me, Discord bot!"
   }
 }
