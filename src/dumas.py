@@ -10,11 +10,11 @@ logger = logging.getLogger(__name__)
 
 HELP='''```
 Usage:
-  &help       - show this help page
-  &start      - start sending messages continously
-  &stop       - stop sending messages continously
-  &random     - send a random message once
-  &get-config - get active configuration
+  &help               - show this help page
+  &start [author_id]  - start sending messages continously (from the specified user)
+  &stop               - stop sending messages continously
+  &random [author_id] - send a random message once (from the specified user)
+  &show-config        - show active configuration
 ```'''
 
 class Dumas(Client):
