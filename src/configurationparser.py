@@ -26,8 +26,6 @@ CONFIGURATION_JSON = """
 
 class ConfigurationParser:
 
-  configuration = None
-
   MISSING_KEY_MESSAGE = """
     Configuration file does not contain the following key: {}
   """
