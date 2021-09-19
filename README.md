@@ -61,20 +61,20 @@ The program needs a configuration file, which contains important data about your
 After you installed the dependencies and created a configuration file, you can simply run the program with the following command:
 
 ```
-$ python main.py <absolute-path-to-configuration-file>
+$ python main.py [options] <absolute-path-to-configuration-file>
 ```
 
 ## Commands
 
 As every good bot, `dumas` also has commands. Just type one of these into a channel, which has been specified as source.
 
-| Command                   | Description                                                                               |
-| ------------------------- | ----------------------------------------------------------------------------------------- |
-| `&help`                   | `dumas` will show how to use it                                                           |
-| `&start [author_id]`      | `dumas` will send a message from time to time (based on the value of `message.frequency`) |
-| `&stop`                   | `dumas` will stop sending messages                                                        |
-| `&random`                 | `dumas` will send a random message immediately                                            |
-| `&get-config [author_id]` | `dumas` will show the active configuration                                                |
+| Command               | Description                                                                               |
+| --------------------- | ----------------------------------------------------------------------------------------- |
+| `&help`               | `dumas` will show how to use it                                                           |
+| `&start [author_id]`  | `dumas` will send a message from time to time (based on the value of `message.frequency`) |
+| `&stop`               | `dumas` will stop sending messages                                                        |
+| `&random [author_id]` | `dumas` will send a random message immediately                                            |
+| `&show-config`        | `dumas` will show the active configuration                                                |
 
 ## Deploying to Heroku
 

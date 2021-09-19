@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class Config:
+class Configuration:
 
   bot_app: int
   bot_token: str
