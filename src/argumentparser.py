@@ -60,7 +60,7 @@ class ArgumentParser:
             raise ValueError(ArgumentParser.LOGGING_LEVEL_NUMERIC_MESSAGE)
           if int(sys.argv[i]) not in [0, 10, 20, 30, 40, 50]:
             raise ValueError(ArgumentParser.INVALID_LOGGING_LEVEL_MESSAGE)
-          ArgumentParser.logging_level = sys.argv[i]
+          ArgumentParser.logging_level = int(sys.argv[i])
       if not os.path.isfile(sys.argv[argument_count - 1]):
         if sys.argv[argument_count - 1] == ArgumentParser.logging_level:
           raise ValueError(ArgumentParser.TOO_FEW_ARGUMENTS_MESSAGE)
