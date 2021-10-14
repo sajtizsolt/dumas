@@ -48,7 +48,7 @@ class ConfigurationParser:
     try:
       if not os.path.isfile(configuration_file_path):
         raise ValueError(ArgumentParser.INVALID_CONFIGURATION_FILE_PATH)
-      configuration_file = open(configuration_file_path)
+      configuration_file = open(configuration_file_path, encoding="utf-8")
       data = json.load(configuration_file)
       configuration_file.close()
       return Configuration(
@@ -83,7 +83,7 @@ class ConfigurationParser:
 
   @staticmethod
   def read_configuration(configuration_file_path):
-    configuration_file = open(configuration_file_path)
+    configuration_file = open(configuration_file_path, encoding="utf-8")
     data = json.load(configuration_file)
     configuration_file.close()
     return Configuration(
@@ -101,6 +101,6 @@ class ConfigurationParser:
 
   @staticmethod
   def write_configuration_to_file(path_to_write, configuration):
-    configuration_file = open(path_to_write, 'w')
+    configuration_file = open(path_to_write, 'w', encoding="utf-8")
     configuration_file.write(ConfigurationParser.get_json(configuration))
     configuration_file.close()
