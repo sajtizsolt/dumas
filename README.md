@@ -46,18 +46,18 @@ The program needs a configuration file, which contains important data about your
 }
 ```
 
-| Field               | Type             | Description                                                     |
-| ------------------- | ---------------- | --------------------------------------------------------------- |
-| `bot.app`           | `integer`        | ID of the application which owns the bot                        |
-| `bot.token`         | `string`         | secret token of the bot                                         |
-| `channel.sources`   | `array[integer]` | IDs of the channels of which the bot will _pick_ messages       |
-| `channel.target`    | `integer`        | ID of the channels to which the bot will _send_ messages        |
-| `message.farewell`  | `string`         | the message the bot will send before disconnecting              |
-| `message.frequency` | `integer`        | the frequency of the continous messages (in seconds)            |
-| `message.length`    | `integer`        | the minimum length of the messages to choose from               |
-| `message.limit`     | `integer`        | the maximum number of messages to parse                         |
-| `message.warning`   | `string`         | the message the bot will send when an expected problem occurres |
-| `message.welcome`   | `string`         | the message the bot will send after connecting                  |
+| Field               | Type             | Description                                                    |
+| ------------------- | ---------------- | -------------------------------------------------------------- |
+| `bot.app`           | `integer`        | ID of the application which owns the bot                       |
+| `bot.token`         | `string`         | secret token of the bot                                        |
+| `channel.sources`   | `array[integer]` | IDs of the channels from which the bot will _pick_ messages    |
+| `channel.target`    | `integer`        | ID of the channel to which the bot will _send_ messages        |
+| `message.farewell`  | `string`         | the message the bot will send before disconnecting             |
+| `message.frequency` | `integer`        | the frequency of continuous messages (in seconds)              |
+| `message.length`    | `integer`        | the minimum length of the messages to choose from              |
+| `message.limit`     | `integer`        | the maximum number of messages to parse                        |
+| `message.warning`   | `string`         | the message the bot will send when an expected problem occurs  |
+| `message.welcome`   | `string`         | the message the bot will send after connecting                 |
 
 ## How to run
 
@@ -99,5 +99,5 @@ As every good bot, `dumas` also has commands. Just type one of these into a chan
 | `&start [author_id]`  | `dumas` will send a message from time to time (based on the value of `message.frequency`) |
 | `&stop`               | `dumas` will stop sending messages                                                        |
 | `&random [author_id]` | `dumas` will send a random message immediately                                            |
-| `&show-config`        | `dumas` will show the active configuration                                                |
+| `&show-config`        | `dumas` will show the active configuration (alias: `&get-config`)                          |
 

@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 
 
-@dataclass(slots=True)
+@dataclass(slots=True, frozen=True)
 class Configuration:
     bot_app: int
     bot_token: str
-    channel_sources: list[int]
+    channel_sources: tuple[int, ...]
     channel_target: int
     message_farewell: str
     message_frequency: int

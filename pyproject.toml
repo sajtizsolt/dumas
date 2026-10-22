@@ -54,6 +54,7 @@ ignore = [
     "S101",     # Use of assert detected (standard in pytest)
     "S105",     # Possible hardcoded password (test tokens in unit tests)
     "S106",     # Possible hardcoded password argument (test tokens in unit tests)
+    "SLF001",   # Private member accessed in unit tests
     "PLR2004",  # Magic value used in comparison
     "TC001",    # Move import into type-checking block
     "TC002",    # Move third-party import into type-checking block

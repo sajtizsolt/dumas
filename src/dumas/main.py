@@ -12,15 +12,18 @@ logger = logging.getLogger(__name__)
 
 
 def configure_logger(logging_level: int = 20) -> None:
+    handlers: list[logging.Handler] = [logging.StreamHandler(sys.stdout)]
+    try:
+        handlers.append(logging.FileHandler("dumas.log", encoding="utf-8"))
+    except OSError as err:
+        logger.warning("Could not open 'dumas.log' for writing: %s. Logging to console only.", err)
+
     logging.basicConfig(
-        encoding="utf-8",
-        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-        filename="dumas.log",
         level=logging_level,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+        handlers=handlers,
+        force=True,
     )
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(logging_level)
-    logging.getLogger().addHandler(console_handler)
 
 
 def main() -> None:
@@ -37,7 +40,10 @@ def main() -> None:
         sys.exit(1)
 
     bot = Dumas(configuration)
-    bot.run(configuration.bot_token)
+    try:
+        bot.run(configuration.bot_token, log_handler=None)
+    except KeyboardInterrupt:
+        logger.info("Bot process interrupted by user. Exiting.")
 
 
 if __name__ == "__main__":

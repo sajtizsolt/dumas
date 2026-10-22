@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from dumas.argumentparser import ArgumentParser
+from dumas.argumentparser import ArgumentParser, Arguments
 
 
 def test_argument_parser_valid_config(tmp_path: Path) -> None:
@@ -10,10 +10,22 @@ def test_argument_parser_valid_config(tmp_path: Path) -> None:
     dummy_config.write_text("{}", encoding="utf-8")
 
     args = ArgumentParser.verify_arguments([str(dummy_config), "--logging-level", "10"])
+    assert isinstance(args, Arguments)
     assert args.configuration_path == str(dummy_config)
     assert args.logging_level == 10
     assert ArgumentParser.configuration_path == str(dummy_config)
     assert ArgumentParser.logging_level == 10
+
+
+def test_argument_parser_named_logging_level(tmp_path: Path) -> None:
+    dummy_config = tmp_path / "config.json"
+    dummy_config.write_text("{}", encoding="utf-8")
+
+    args = ArgumentParser.verify_arguments([str(dummy_config), "--logging-level", "DEBUG"])
+    assert args.logging_level == 10
+
+    args = ArgumentParser.verify_arguments([str(dummy_config), "--logging-level", "warning"])
+    assert args.logging_level == 30
 
 
 def test_argument_parser_missing_args(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -42,3 +54,13 @@ def test_argument_parser_env_fallback(tmp_path: Path, monkeypatch: pytest.Monkey
     monkeypatch.setenv("DUMAS_CONFIG", str(dummy_config))
     args = ArgumentParser.verify_arguments([])
     assert args.configuration_path == str(dummy_config)
+
+
+def test_argument_parser_accepts_sequence(tmp_path: Path) -> None:
+    dummy_config = tmp_path / "config.json"
+    dummy_config.write_text("{}", encoding="utf-8")
+
+    tuple_args = (str(dummy_config), "--logging-level", "DEBUG")
+    parsed = ArgumentParser.parse_arguments(tuple_args)
+    assert parsed.configuration_path == str(dummy_config)
+    assert parsed.logging_level == 10

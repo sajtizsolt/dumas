@@ -20,13 +20,36 @@ class ConfigurationParser:
         return current
 
     @staticmethod
+    def _parse_positive_int(data: dict[str, object], key: str) -> int:
+        val = int(str(ConfigurationParser.get_value_if_key_exists(data, key)))
+        if val <= 0:
+            raise ValueError(f"{key} must be greater than 0")
+        return val
+
+    @staticmethod
+    def _parse_id(data: dict[str, object], key: str, entity_name: str) -> int:
+        raw = ConfigurationParser.get_value_if_key_exists(data, key)
+        try:
+            val = int(str(raw))
+        except (ValueError, TypeError) as err:
+            raise ValueError(f"{key} must be a valid integer {entity_name}: {err}") from err
+        if val <= 0:
+            raise ValueError(f"{key} must be a positive integer {entity_name}")
+        return val
+
+    @staticmethod
     def verify_configuration_file(configuration_file_path: str) -> Configuration:
         config_path = Path(configuration_file_path)
         if not config_path.is_file():
             raise FileNotFoundError(f"Configuration file not found: {configuration_file_path}")
 
         with config_path.open(encoding="utf-8") as f:
-            data: dict[str, object] = json.load(f)
+            data = json.load(f)
+
+        if not isinstance(data, dict):
+            raise TypeError(
+                f"Configuration file root must be a JSON object: {configuration_file_path}",
+            )
 
         raw_token = str(ConfigurationParser.get_value_if_key_exists(data, "bot.token"))
         env_token = os.getenv("DISCORD_TOKEN")
@@ -35,28 +58,43 @@ class ConfigurationParser:
         else:
             bot_token = raw_token
 
-        sources = ConfigurationParser.get_value_if_key_exists(data, "channel.sources")
-        if not isinstance(sources, list):
-            raise TypeError("channel.sources must be a list of channel IDs")
+        if not bot_token or bot_token in ("ENV", "YOUR_TOKEN_HERE"):
+            raise ValueError(
+                "bot.token must not be empty or contain placeholders ('ENV', 'YOUR_TOKEN_HERE')",
+            )
 
-        target_id = ConfigurationParser.get_value_if_key_exists(data, "channel.target")
-        limit_val = ConfigurationParser.get_value_if_key_exists(data, "message.limit")
+        sources = ConfigurationParser.get_value_if_key_exists(data, "channel.sources")
+        if not isinstance(sources, list) or not sources:
+            raise ValueError("channel.sources must be a non-empty list of channel IDs")
+
+        try:
+            raw_sources = [int(c) for c in sources]
+        except (ValueError, TypeError) as err:
+            raise ValueError(f"All items in channel.sources must be integer IDs: {err}") from err
+
+        if any(c <= 0 for c in raw_sources):
+            raise ValueError("All items in channel.sources must be positive integer channel IDs")
+
+        channel_sources = tuple(dict.fromkeys(raw_sources))
+
+        frequency = ConfigurationParser._parse_positive_int(data, "message.frequency")
+        length_val = ConfigurationParser._parse_positive_int(data, "message.length")
+        limit_val = ConfigurationParser._parse_positive_int(data, "message.limit")
+
+        bot_app = ConfigurationParser._parse_id(data, "bot.app", "application ID")
+        channel_target = ConfigurationParser._parse_id(data, "channel.target", "channel ID")
 
         return Configuration(
-            bot_app=int(str(ConfigurationParser.get_value_if_key_exists(data, "bot.app"))),
+            bot_app=bot_app,
             bot_token=bot_token,
-            channel_sources=[int(c) for c in sources],
-            channel_target=int(str(target_id)),
+            channel_sources=channel_sources,
+            channel_target=channel_target,
             message_farewell=str(
                 ConfigurationParser.get_value_if_key_exists(data, "message.farewell"),
             ),
-            message_frequency=int(
-                str(ConfigurationParser.get_value_if_key_exists(data, "message.frequency")),
-            ),
-            message_length=int(
-                str(ConfigurationParser.get_value_if_key_exists(data, "message.length")),
-            ),
-            message_limit=int(str(limit_val)),
+            message_frequency=frequency,
+            message_length=length_val,
+            message_limit=limit_val,
             message_warning=str(
                 ConfigurationParser.get_value_if_key_exists(data, "message.warning"),
             ),
@@ -73,7 +111,7 @@ class ConfigurationParser:
                 "token": "Secret token!" if mask_token else configuration.bot_token,
             },
             "channel": {
-                "sources": configuration.channel_sources,
+                "sources": list(configuration.channel_sources),
                 "target": configuration.channel_target,
             },
             "message": {
