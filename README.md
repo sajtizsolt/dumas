@@ -10,15 +10,18 @@ This program will let a Discord bot read your old messages and randomly send the
 
 ### Dependencies
 
-Since the bot is written in Python, you only need to install a Python environment some dependencies with `pip`, using the following command:
+Install dependencies using `uv`:
 
+```bash
+$ uv sync
 ```
-$ pip install discord.py
-```
+
+> [!IMPORTANT]
+> Since Dumas reads message history, make sure to enable the **Message Content Intent** in your [Discord Developer Portal](https://discord.com/developers/applications) under your bot's **Bot** settings tab.
 
 ### Configuration
 
-The program needs a configuration file, which contains important data about your server and bot. The configuration file should look like this:
+The program needs a configuration file, which contains important data about your server and bot. You can also provide the bot token via the `DISCORD_TOKEN` environment variable or `.env` file instead of storing it in plaintext. The configuration file should look like this:
 
 ```json
 {
@@ -58,10 +61,32 @@ The program needs a configuration file, which contains important data about your
 
 ## How to run
 
-After you installed the dependencies and created a configuration file, you can simply run the program with the following command:
+After installing dependencies and creating a configuration file, run Dumas:
 
+```bash
+$ uv run dumas [options] <path-to-configuration-file>
 ```
-$ python main.py [options] <absolute-path-to-configuration-file>
+
+You can also set the configuration path via the `DUMAS_CONFIG` environment variable or in a `.env` file, allowing you to run:
+
+```bash
+$ uv run dumas
+```
+
+## Development & Testing
+
+Run tests and code quality checks using `uv`:
+
+```bash
+# Run unit tests
+$ uv run pytest
+
+# Lint and check formatting
+$ uv run ruff check .
+$ uv run ruff format --check .
+
+# Type checking
+$ uv run mypy src/ tests/
 ```
 
 ## Commands
